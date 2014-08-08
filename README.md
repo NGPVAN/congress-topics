@@ -1,4 +1,4 @@
 congress-topics
 ===============
-
-Determine what topic to use when sending a message to a congress person
+Proxies requests to [congress-forms](http://github.com/EFForg/congress-forms),
+attaching topics relevant to messages.
