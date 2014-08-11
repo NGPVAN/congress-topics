@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/lab/bin/lab -c"
+    "postinstall": "./bin/build-topic-db.js"
   },
   "repository": {
     "type": "git",
