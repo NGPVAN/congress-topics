@@ -3,12 +3,10 @@ var Promise = require('bluebird');
 var fs = require('graceful-fs');
 var _ = require('lodash');
 var natural = require('natural');
-var level = require('level');
-var sublevel = require('level-sublevel');
+var db = require('../lib/db');
 
-var db = sublevel(level(__dirname + '/../database'));
-var tfidf = db.sublevel('tfidf');
-var topics = db.sublevel('topics');
+var tfidf = db.tfidf;
+var topics = db.topics;
 
 var loadYaml = require('js-yaml').safeLoad;
 var readDir = Promise.promisify(fs.readdir);
@@ -91,7 +89,7 @@ then(function(bioIdToOptionLists) {
 
 then(function(bioIdToKeysAndTfidf) {
   return Promise.all(_.map(bioIdToKeysAndTfidf, function(keysAndTfidfbioId, bioId) {
-    return addTfidf(bioId, keysAndTfidfbioId.tfidf).
+    return addTfidf(bioId, JSON.stringify(keysAndTfidfbioId.tfidf)).
     then(function() {
       return Promise.map(keysAndTfidfbioId.keys, function(key, index) {
         addTopic(bioId+'-'+index, key);
