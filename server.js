@@ -37,6 +37,4 @@ server.route({
   }
 });
 
-server.start();
-
 module.exports = server;
