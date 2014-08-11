@@ -13,3 +13,4 @@ build/Release
 
 #vim swap files
 *.sw[a-z]
+database

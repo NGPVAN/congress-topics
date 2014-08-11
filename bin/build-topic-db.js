@@ -6,7 +6,7 @@ var natural = require('natural');
 var level = require('level');
 var sublevel = require('level-sublevel');
 
-var db = sublevel(level(__dirname + '/database'));
+var db = sublevel(level(__dirname + '/../database'));
 var tfidf = db.sublevel('tfidf');
 var topics = db.sublevel('topics');
 
