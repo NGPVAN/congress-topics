@@ -1,0 +1,35 @@
+{
+  "name": "congress-topics",
+  "version": "0.0.0",
+  "description": "Proxies requests to congress-forms adding topics as necessary",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/lab/bin/lab -c",
+    "postinstall": "./bin/build-topic-db.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/ngpvan/congress-topics"
+  },
+  "author": "Mike Atkins <apeherder@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ngpvan/congress-topics/issues"
+  },
+  "homepage": "https://github.com/ngpvan/congress-topics",
+  "devDependencies": {
+    "lab": "^4.0.0"
+  },
+  "dependencies": {
+    "bluebird": "^2.2.2",
+    "graceful-fs": "^3.0.2",
+    "hapi": "^6.4.0",
+    "joi": "^4.6.2",
+    "js-yaml": "^3.1.0",
+    "level": "^0.18.0",
+    "level-sublevel": "^6.2.2",
+    "lodash": "^2.4.1",
+    "natural": "^0.1.28",
+    "request": "^2.40.0"
+  }
+}
