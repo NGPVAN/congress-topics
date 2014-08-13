@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/ngpvan/congress-topics",
   "devDependencies": {
+    "jshint": "^2.5.3",
     "lab": "^4.0.0"
   },
   "dependencies": {
