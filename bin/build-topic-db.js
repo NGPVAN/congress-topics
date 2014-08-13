@@ -23,7 +23,14 @@ function getBioId(filename) {
 
 function optionListToArray(optionList) {
   if(!_.isArray(optionList)) {
-    return _.keys(optionList);
+    if(_.some(optionList, function(optionValue, optionKey) {
+      return optionKey.indexOf('--');
+    })) {
+      return _.values(optionList);
+    }
+    else {
+      return _.keys(optionList);
+    }
   }
   else {
     return optionList;
