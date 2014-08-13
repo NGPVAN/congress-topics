@@ -13,4 +13,4 @@ module.exports = function(document) {
   map(stemmer).
   value().
   join(' ');
-}
+};
