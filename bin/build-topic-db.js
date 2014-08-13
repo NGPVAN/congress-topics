@@ -88,7 +88,8 @@ then(function(bioIdToOptionLists) {
 }).
 
 then(function(bioIdToKeysAndTfidf) {
-  return Promise.all(_.map(bioIdToKeysAndTfidf, function(keysAndTfidfbioId, bioId) {
+  return Promise.all(_.map(bioIdToKeysAndTfidf, 
+  function(keysAndTfidfbioId, bioId) {
     return addTfidf(bioId, JSON.stringify(keysAndTfidfbioId.tfidf)).
     then(function() {
       return Promise.map(keysAndTfidfbioId.keys, function(key, index) {
