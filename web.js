@@ -1,3 +1,5 @@
 var server = require('./server');
 
-server.start();
+server.start(function() {
+  console.log('Server started at [' + server.info.uri + ']');
+});

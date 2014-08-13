@@ -1,5 +1,5 @@
 var Hapi = require('hapi');
-var server = Hapi.createServer('localhost', parseInt(process.env.PORT, 10));
+var server = Hapi.createServer(~~process.env.PORT || 3000, '0.0.0.0');
 var db = require('./lib/db');
 var natural = require('natural');
 var Promise = require('bluebird');
