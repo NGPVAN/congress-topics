@@ -22,7 +22,7 @@ describe('POST', function() {
     server.inject(options, function(response) {
       var result = response.result;
 
-      expect(result).to.equal('Congress and Elections');
+      expect(result).to.equal('--- Bike and Ped');
       done();
     });
   });
