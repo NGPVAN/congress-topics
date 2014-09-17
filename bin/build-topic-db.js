@@ -24,9 +24,24 @@ function getBioId(filename) {
 function fileToBioidToKeysAndTfidf(filename, processedFile) {
   return processedFile.
   then(function(optionList) {
+    var keys = _.keys(optionList);
+    var options = optionListToArray(optionList);
+
+    //Get rid of the select ones
+    var indiciesToRemove = [];
+    _.each(options, function(option, index) {
+      if(option.match(/[sS]elect/)) {
+        indiciesToRemove.push(index);
+      }
+    });
+
+    var filterer = function(value, index) {
+      return !_.contains(indiciesToRemove, index);
+    };
+
     return {
-      keys: _.keys(optionList),
-      tfidf: createTfIdf(_.map(optionListToArray(optionList), analyze))
+      keys: _.filter(keys, filterer),
+      tfidf: createTfIdf(_.map(_.filter(options, filterer), analyze))
     };
   }).
   then(function(keysAndTfidf) {
