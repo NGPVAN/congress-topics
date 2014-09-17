@@ -4,6 +4,7 @@ var dbBuilder = require('../lib/db-builder');
 var Promise = require('bluebird');
 var dbBuilder = require('../lib/db-builder');
 
+var optionListToArray = dbBuilder.optionListToArray;
 var getYamlFilenames = dbBuilder.getYamlFilenames;
 var processFile = dbBuilder.processFile;
 var getBioId = dbBuilder.getBioId;
@@ -14,7 +15,7 @@ then(function(filenames) {
     return processFile(filename).
     then(function(optionList) {
       var bioid = getBioId(filename);
-      return _.map(optionList, function(option) {
+      return _.map(optionListToArray(optionList), function(option) {
         return [bioid, option];
       });
     });

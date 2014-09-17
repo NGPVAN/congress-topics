@@ -10,27 +10,12 @@ var topics = db.topics;
 
 var analyze = require('../analyze');
 
+var optionListToArray = dbBuilder.optionListToArray;
 var getYamlFilenames = dbBuilder.getYamlFilenames;
 var processFile = dbBuilder.processFile;
 var getBioId = dbBuilder.getBioId;
 var addTopic = Promise.promisify(topics.put, topics);
 var addTfidf = Promise.promisify(tfidf.put, tfidf);
-
-function optionListToArray(optionList) {
-  if(!_.isArray(optionList)) {
-    if(_.some(optionList, function(optionValue, optionKey) {
-      return optionKey.indexOf('--');
-    })) {
-      return _.values(optionList);
-    }
-    else {
-      return _.keys(optionList);
-    }
-  }
-  else {
-    return optionList;
-  }
-}
 
 function getBioId(filename) {
   return filename.match(/^(.*).yaml$/)[1];
