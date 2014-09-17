@@ -22,7 +22,7 @@ server.route({
     }
   },
   handler: function(req, reply) {
-    var message = req.payload.fields.$MESSAGE,
+    var message = req.payload.message,
         bioid = req.payload.bioid;
 
     tfidf.get(bioid, console.log);
@@ -37,6 +37,9 @@ server.route({
     }).
     then(function(index) {
       return getTopic(bioid+'-'+index);
+    }).
+    then(function(topic) {
+      return { topic: topic };
     }).
     catch(function(reason) {
       console.log(reason);
