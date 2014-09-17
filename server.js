@@ -33,13 +33,15 @@ server.route({
     }).
     then(function(scores) {
       var index = _.indexOf(scores, _.max(scores));
-      return index === -1 ? 0 : index;
-    }).
-    then(function(index) {
-      return getTopic(bioid+'-'+index);
-    }).
-    then(function(topic) {
-      return { topic: topic };
+      if(index === -1) {
+        return Hapi.error.notFound(bioid+' does not use topics.');
+      }
+      else {
+        return getTopic(bioid+'-'+index).
+        then(function(topic) {
+          return { topic: topic };
+        });
+      }
     }).
     catch(function(reason) {
       console.log(reason);

@@ -7,7 +7,25 @@ var it = lab.it;
 var expect = Lab.expect;
 
 describe('POST', function() {
-  it('should add a topic', function(done) {
+  it('should 404 for N000032 since they don\'t require topic', function(done) {
+    var options = {
+      method: 'POST',
+      url: '/',
+      payload: { 
+        bioid: 'N000032',
+        topic: 'transportation',
+        message: 'yo!'
+      }
+    };
+
+    server.inject(options, function(response) {
+      expect(response.statusCode).to.equal(404);
+      done();
+    });
+  });
+
+  it('should should choose bike for Jim Moran for a bike message', 
+  function(done) {
     var options = {
       method: 'POST',
       url: '/',
