@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 var _ = require('lodash');
 var dbBuilder = require('../lib/db-builder');
-var Promise = require('bluebird');
+var BPromise = require('bluebird');
 var dbBuilder = require('../lib/db-builder');
 
 var optionListToArray = dbBuilder.optionListToArray;
@@ -11,7 +11,7 @@ var getBioId = dbBuilder.getBioId;
 
 getYamlFilenames().
 then(function(filenames) {
-  return Promise.map(filenames, function(filename) {
+  return BPromise.map(filenames, function(filename) {
     return processFile(filename).
     then(function(optionList) {
       var bioid = getBioId(filename);

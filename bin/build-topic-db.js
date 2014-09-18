@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-var Promise = require('bluebird');
+var BPromise = require('bluebird');
 var _ = require('lodash');
 var db = require('../lib/db');
 var natural = require('natural');
@@ -14,8 +14,8 @@ var optionListToArray = dbBuilder.optionListToArray;
 var getYamlFilenames = dbBuilder.getYamlFilenames;
 var processFile = dbBuilder.processFile;
 var getBioId = dbBuilder.getBioId;
-var addTopic = Promise.promisify(topics.put, topics);
-var addTfidf = Promise.promisify(tfidf.put, tfidf);
+var addTopic = BPromise.promisify(topics.put, topics);
+var addTfidf = BPromise.promisify(tfidf.put, tfidf);
 
 function getBioId(filename) {
   return filename.match(/^(.*).yaml$/)[1];
@@ -62,7 +62,7 @@ function createTfIdf(optionList) {
 
 getYamlFilenames().
 then(function(filenames) {
-  return Promise.map(filenames, function(filename) {
+  return BPromise.map(filenames, function(filename) {
     return fileToBioidToKeysAndTfidf(filename, processFile(filename));
   });
 }).
@@ -73,11 +73,11 @@ then(function(bioIdToOptionLists) {
 }).
 
 then(function(bioIdToKeysAndTfidf) {
-  return Promise.all(_.map(bioIdToKeysAndTfidf, 
+  return BPromise.all(_.map(bioIdToKeysAndTfidf, 
   function(keysAndTfidfbioId, bioId) {
     return addTfidf(bioId, JSON.stringify(keysAndTfidfbioId.tfidf)).
     then(function() {
-      return Promise.map(keysAndTfidfbioId.keys, function(key, index) {
+      return BPromise.map(keysAndTfidfbioId.keys, function(key, index) {
         addTopic(bioId+'-'+index, key);
       });
     });

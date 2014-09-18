@@ -2,15 +2,15 @@ var Hapi = require('hapi');
 var server = Hapi.createServer(~~process.env.PORT || 3000, '0.0.0.0');
 var db = require('./lib/db');
 var natural = require('natural');
-var Promise = require('bluebird');
+var BPromise = require('bluebird');
 var _ = require('lodash');
 var analyze = require('./analyze');
 
 var topics = db.topics;
 var tfidf = db.tfidf;
 
-var getTfidf = Promise.promisify(tfidf.get, tfidf);
-var getTopic = Promise.promisify(topics.get, topics);
+var getTfidf = BPromise.promisify(tfidf.get, tfidf);
+var getTopic = BPromise.promisify(topics.get, topics);
 
 server.pack.register({
   plugin: require('good'),
