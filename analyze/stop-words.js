@@ -6,7 +6,6 @@ module.exports = {
   to: true, 
   get: true, 
   in: true, 
-  for: true,
   bill: true, 
   request: true, 
   thank: true,
