@@ -12,6 +12,15 @@ var tfidf = db.tfidf;
 var getTfidf = Promise.promisify(tfidf.get, tfidf);
 var getTopic = Promise.promisify(topics.get, topics);
 
+server.pack.register({
+  plugin: require('good'),
+  options: {
+    subscribers: {
+      console: ['ops', 'error', 'request', 'log']
+    }
+  }
+}, function(err) { if(err) throw err; });
+
 server.route({
   path: '/',
   method: 'POST',
@@ -25,9 +34,11 @@ server.route({
     var message = req.payload.message,
         bioid = req.payload.bioid;
 
-    tfidf.get(bioid, console.log);
     getTfidf(bioid).
     then(function(tfidfJson) {
+      req.log(['debug', 'database', 'tfidf'], 
+        _.extend({ bioid: bioid }, tfidfJson));
+
       var tfidf = new natural.TfIdf(JSON.parse(tfidfJson));
       return tfidf.tfidfs(analyze(message));
     }).
@@ -44,7 +55,6 @@ server.route({
       }
     }).
     catch(function(reason) {
-      console.log(reason);
       return Hapi.error.internal('uh oh', reason);
     }).
     then(reply);
