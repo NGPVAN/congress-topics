@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/lab/bin/lab -c",
+    "test-tc": "./node_modules/lab/bin/lab -r tap",
     "postinstall": "./bin/build-topic-db.js",
     "start": "node web.js"
   },
