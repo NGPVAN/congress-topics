@@ -10,27 +10,12 @@ var topics = db.topics;
 
 var analyze = require('../analyze');
 
+var optionListToArray = dbBuilder.optionListToArray;
 var getYamlFilenames = dbBuilder.getYamlFilenames;
 var processFile = dbBuilder.processFile;
 var getBioId = dbBuilder.getBioId;
 var addTopic = Promise.promisify(topics.put, topics);
 var addTfidf = Promise.promisify(tfidf.put, tfidf);
-
-function optionListToArray(optionList) {
-  if(!_.isArray(optionList)) {
-    if(_.some(optionList, function(optionValue, optionKey) {
-      return optionKey.indexOf('--');
-    })) {
-      return _.values(optionList);
-    }
-    else {
-      return _.keys(optionList);
-    }
-  }
-  else {
-    return optionList;
-  }
-}
 
 function getBioId(filename) {
   return filename.match(/^(.*).yaml$/)[1];
@@ -39,9 +24,24 @@ function getBioId(filename) {
 function fileToBioidToKeysAndTfidf(filename, processedFile) {
   return processedFile.
   then(function(optionList) {
+    var keys = _.keys(optionList);
+    var options = optionListToArray(optionList);
+
+    //Get rid of the select ones
+    var indiciesToRemove = [];
+    _.each(options, function(option, index) {
+      if(option.match(/[sS]elect/)) {
+        indiciesToRemove.push(index);
+      }
+    });
+
+    var filterer = function(value, index) {
+      return !_.contains(indiciesToRemove, index);
+    };
+
     return {
-      keys: _.keys(optionList),
-      tfidf: createTfIdf(_.map(optionListToArray(optionList), analyze))
+      keys: _.filter(keys, filterer),
+      tfidf: createTfIdf(_.map(_.filter(options, filterer), analyze))
     };
   }).
   then(function(keysAndTfidf) {

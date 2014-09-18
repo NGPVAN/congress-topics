@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "bluebird": "^2.2.2",
+    "good": "^2.3.0",
     "graceful-fs": "^3.0.2",
     "hapi": "^6.4.0",
     "joi": "^4.6.2",
