@@ -4,19 +4,25 @@ var dbBuilder = require('../lib/db-builder');
 var BPromise = require('bluebird');
 var dbBuilder = require('../lib/db-builder');
 
-var optionListToArray = dbBuilder.optionListToArray;
 var getYamlFilenames = dbBuilder.getYamlFilenames;
-var processFile = dbBuilder.processFile;
+var loadFile = dbBuilder.loadFile;
+var getUrl = dbBuilder.getUrl;
+var getOptionList = dbBuilder.getOptionList;
 var getBioId = dbBuilder.getBioId;
 
 getYamlFilenames().
 then(function(filenames) {
   return BPromise.map(filenames, function(filename) {
-    return processFile(filename).
-    then(function(optionList) {
+    return loadFile(filename).
+    then(function(congressForm) {
+      var url = getUrl(congressForm);
+      var optionList = getOptionList(congressForm);
+      return [url, optionList];
+    }).
+    spread(function(url, optionList) {
       var bioid = getBioId(filename);
-      return _.map(optionListToArray(optionList), function(option) {
-        return [bioid, option];
+      return _.map(optionList, function(value, key) {
+        return [bioid, url, key, value];
       });
     });
   });
